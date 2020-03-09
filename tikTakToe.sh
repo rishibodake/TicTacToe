@@ -36,4 +36,12 @@ function assignLetter(){
 		player="O"
 	fi
 }
-assignLetter
+function toss(){
+	if [[  $((RANDOM%2)) -eq 0 ]]
+	then
+		echo Player 1 Term
+	else
+		echo Player 2 Term
+	fi
+}
+toss
