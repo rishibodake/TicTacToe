@@ -4,6 +4,7 @@
 #Since:March 9 2020 /Monday
 ROW=3
 COLUMN=3
+player="P"
 declare -A board
 function initializeBoard(){  #function to create board
 	for((r=0;r<$ROW;r++))
@@ -27,5 +28,12 @@ function displayBoard(){  #function to displayboard
 	echo "---------------"
 
 }
-initializeBoard
-displayBoard
+function assignLetter(){
+	if [[ $((RANDOM%2)) -eq 0 ]]
+	then
+		player="X"
+	else
+		player="O"
+	fi
+}
+assignLetter
