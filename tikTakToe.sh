@@ -45,3 +45,5 @@ function toss(){
 	fi
 }
 toss
+initializeBoard
+displayBoard
