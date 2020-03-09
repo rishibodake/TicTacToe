@@ -44,6 +44,34 @@ function toss(){
 		echo Player 2 Term
 	fi
 }
+function putInCell(){
+	assignLetter
+	read -p "Enter your choice: " choice
+	case $choice in
+						1)
+							board[0,0]=$player;;
+						2)
+                     board[0,1]=$player;;
+						3)
+                     board[0,2]=$player;;
+						4)
+                     board[1,0]=$player;;
+						5)
+                     board[1,1]=$player;;
+						6)
+                     board[1,2]=$player;;
+						7)
+                     board[2,0]=$player;;
+						8)
+                     board[2,1]=$player;;
+						9)
+                     board[2,2]=$player;;
+						*)
+							printf "Associative key not find "
+	esac
+displayBoard
+}
 toss
 initializeBoard
 displayBoard
+putInCell
