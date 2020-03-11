@@ -5,6 +5,8 @@
 ROW=3
 COLUMN=3
 player="P"
+turn=1
+winChecker=0
 declare -A board
 function initializeBoard(){  #function to create board
 	for((r=0;r<$ROW;r++))
@@ -21,20 +23,12 @@ function displayBoard(){  #function to displayboard
 		echo "---------------"
 		for(( c=0; c<$COLUMN; c++))
 		do
-			echo -n "| ${board[$r,$c]} |" 
+			echo -n "| ${board[$r,$c]} |"
 		done
 		printf "\n"
 	done
 	echo "---------------"
 
-}
-function assignLetter(){
-	if [[ $((RANDOM%2)) -eq 0 ]]
-	then
-		player="X"
-	else
-		player="O"
-	fi
 }
 function toss(){
 	if [[  $((RANDOM%2)) -eq 0 ]]
@@ -44,10 +38,20 @@ function toss(){
 		echo Player 2 Term
 	fi
 }
+function assignLetter(){
+	if [[ $turn%2 -eq 0 ]]
+	then
+		player="X"
+	else
+		player="O"
+	fi
+}
 function putInCell(){
-	assignLetter
-	read -p "Enter your choice: " choice
-	case $choice in
+	while [[ $turn -le 9 && winChecker -eq 0 ]]
+	do
+		assignLetter
+		read -p "Enter your choice: " choice
+		case $choice in
 						1)
 							board[0,0]=$player;;
 						2)
@@ -68,8 +72,71 @@ function putInCell(){
                      board[2,2]=$player;;
 						*)
 							printf "Associative key not find "
-	esac
-displayBoard
+							((turn--))
+		esac
+	displayBoard
+	isWon
+	((turn++))
+	done
+}
+function isWon(){
+	if [[ ${board[0,0]} == "X" && ${board[0,1]} == "X" && ${board[0,2]} == "X" ]]
+	then
+		winChecker=1
+	elif [[ ${board[1,0]} == "X" && ${board[1,1]} == "X" && ${board[1,2]} == "X" ]]
+	then 
+		winChecker=1
+	elif [[ ${board[2,0]} == "X" && ${board[2,1]} == "X" && ${board[2,2]} == "X" ]]
+	then
+		winChecker=1
+	elif [[ ${board[0,0]} == "O" && ${board[0,1]} == "O" && ${board[0,2]} == "O" ]]
+   then
+      winChecker=1
+   elif [[ ${board[1,0]} == "O" && ${board[1,1]} == "O" && ${board[1,2]} == "O" ]]
+   then 
+      winChecker=1
+   elif [[ ${board[2,0]} == "O" && ${board[2,1]} == "O" && ${board[2,2]} == "O" ]]
+   then
+      winChecker=1
+	elif [[ ${board[0,0]} == "X" && ${board[1,0]} == "X" && ${board[2,0]} == "X" ]]
+	then
+		winChecker=1
+	elif [[ ${board[0,1]} == "X" && ${board[1,1]} == "X" && ${board[2,1]} == "X" ]]
+	then
+		winChecker=1
+	elif [[ ${board[0,2]} == "X" && ${board[1,2]} == "X" && ${board[2,2]} == "X" ]]
+	then
+		winChecker=1
+	elif [[ ${board[0,0]} == "O" && ${board[1,0]} == "O" && ${board[2,0]} == "O" ]]
+   then
+      winChecker=1
+   elif [[ ${board[0,1]} == "O" && ${board[1,1]} == "O" && ${board[2,1]} == "O" ]]
+   then
+      winChecker=1
+   elif [[ ${board[0,2]} == "O" && ${board[1,2]} == "O" && ${board[2,2]} == "O" ]]
+	then
+		winChecker=1
+	elif [[ ${board[0,0]} == "O" && ${board[1,1]} == "O" && ${board[2,2]} == "O" ]]
+   then
+      winChecker=1
+	elif [[ ${board[0,0]} == "X" && ${board[1,1]} == "X" && ${board[2,2]} == "X" ]]
+   then
+      winChecker=1
+	elif [[ ${board[0,2]} == "O" && ${board[1,1]} == "O" && ${board[2,0]} == "O" ]]
+   then
+      winChecker=1
+	elif [[ ${board[0,2]} == "X" && ${board[1,1]} == "X" && ${board[2,0]} == "X" ]]
+   then
+      winChecker=1
+	fi
+	if [[ $winChecker -eq 1 ]]
+   then
+      printf "player $player has won the game "
+   elif [[ $turn -ge 9 ]]
+   then
+      printf "Match is tie: "
+   fi
+
 }
 toss
 initializeBoard
