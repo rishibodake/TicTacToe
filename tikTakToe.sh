@@ -31,17 +31,6 @@ function displayBoard(){  #function to displayboard
 	echo "---------------"
 
 }
-#function toss(){
-#	if [[  $((RANDOM%2)) -eq 0 ]]
-#	then
-#		echo "Player's Term"
-#		playerTurn
-#	else
-#		echo "Computer's Term"
-#		computerTurn
-#
-#	fi
-#}
 function assignLetter(){
 	if [[ $turn%2 -eq 0 ]]
 	then
