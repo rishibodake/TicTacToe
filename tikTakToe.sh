@@ -285,14 +285,15 @@ function checkWonBlock(){
 
          elif [[ ${board[1,1]} == "-" ]]; then
                board[1,1]="X"
-			else
-				cNumber=$((RANDOM%8+1))
-				r=$(($cNumber/3))
-				c=$(($cNumber%3))
-			if [[ ${board[$r,$c]} == - ]]
-		then
-			putInCell $cNumber
-		fi
+			# Sides
+         elif [[ ${board[0,1]} == "-" ]]; then
+               board[0,1]="X"
+         elif [[ ${board[1,0]} == "-" ]]; then
+               board[1,0]="X"
+         elif [[ ${board[1,2]} == "-" ]]; then
+               board[1,2]="X"
+         elif [[ ${board[2,1]} == "-" ]]; then
+               board[2,1]="X"
 		fi
 
 displayBoard
