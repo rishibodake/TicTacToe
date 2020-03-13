@@ -280,6 +280,11 @@ function checkWonBlock(){
          	board[2,0]="X"
          elif [[ ${board[2,2]} == "-" ]]; then
          	board[2,2]="X"
+
+			# Center
+
+         elif [[ ${board[1,1]} == "-" ]]; then
+               board[1,1]="X"
 			else
 				cNumber=$((RANDOM%8+1))
 				r=$(($cNumber/3))
