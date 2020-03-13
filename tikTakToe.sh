@@ -5,12 +5,12 @@
 emptyFlag=0
 ROW=3
 COLUMN=3
-player="P"
+player="O"
 turn=1
 Computer="X"
 playerTwo="O"
 winChecker=0
-#cNumber=0
+temp=0
 declare -A board
 function initializeBoard(){  #function to create board
 	for((r=0;r<$ROW;r++))
@@ -41,19 +41,27 @@ function assignLetter(){
 	else
 		player=$playerTwo
 	fi
-
+}
+function toss(){
+	if [[ $((RANDOM%2)) -eq 0 ]]
+	then
+		temp=1
+	else
+		temp=0
+	fi
 }
 function turnDecider(){
    while [[ $turn -le 9 && winChecker -eq 0 ]]
    do
-      if [[ $turn%2 -eq 0 ]]
+      if [[ $turn%2 -eq $temp ]]
 		then
-				echo "Computers Turn"
-				computerPlay
+				echo "Players turn"
+            read -p "Enter your choice: " ch
+            putInCell $ch
       else
-         echo "Players turn"
-         read -p "Enter your choice: " ch
-         putInCell $ch
+				echo "Computers Turn"
+            computerPlay
+
       fi
 	((turn++))
    done
@@ -61,7 +69,7 @@ function turnDecider(){
 
 function putInCell(){
 		choice=$1
-		assignLetter
+#		assignLetter
 		r=$(($choice/3))
 		c=$(($choice%3))
 
@@ -122,7 +130,12 @@ function isWon(){
 	fi
 	if [[ $winChecker -eq 1 ]]
    then
-      printf "player $player has won the game "
+      if [[ $player -eq $Computer ]]
+		then
+			printf "\n Computer has Won "
+		else
+			printf "\n You have Won the game "
+		fi
    elif [[ $turn -ge 9 ]]
    then
       printf "Match is tie: "
@@ -285,4 +298,5 @@ isWon
 }
 initializeBoard
 displayBoard
+toss
 turnDecider
